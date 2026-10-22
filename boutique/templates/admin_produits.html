@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titre %}Produits{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>Produits</h1>
+<p><a class="bouton" href="{{ url_for('admin_formulaire_produit') }}">Ajouter un produit</a></p>
+<div class="defilement">
+<table>
+  <caption>Tous les produits ({{ produits|length }})</caption>
+  <thead><tr><th scope="col">Nom</th><th scope="col">Catégorie</th><th scope="col">Prix</th><th scope="col">Stock</th><th scope="col">Statut</th><th scope="col">Actions</th></tr></thead>
+  <tbody>
+  {% for p in produits %}
+  <tr>
+    <th scope="row">{{ p.nom }}</th><td>{{ p.categorie }}</td><td>{{ p.prix|fcfa }}</td>
+    <td class="{{ 'alerte' if p.stock < SEUIL }}">{{ p.stock }}</td>
+    <td>{{ 'Actif' if p.actif else 'Désactivé' }}</td>
+    <td class="actions">
+      <a href="{{ url_for('admin_formulaire_produit', produit_id=p.id) }}">Modifier</a>
+      <form method="post" action="{{ url_for('admin_basculer_produit', produit_id=p.id) }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button type="submit" class="bouton-lien">{{ 'Désactiver' if p.actif else 'Réactiver' }}</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

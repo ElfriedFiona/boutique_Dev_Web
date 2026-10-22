@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titre %}{{ 'Nouveau produit' if nouveau else 'Modifier le produit' }}{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>{{ 'Nouveau produit' if nouveau else 'Modifier le produit' }}</h1>
+<form method="post" enctype="multipart/form-data" class="form-etroit">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div class="champ"><label for="nom">Nom</label>
+    <input type="text" id="nom" name="nom" value="{{ p.nom if p else '' }}" maxlength="100" required></div>
+  <div class="champ"><label for="categorie_id">Catégorie</label>
+    <select id="categorie_id" name="categorie_id" required>
+      {% for c in categories %}<option value="{{ c.id }}" {% if p and p.categorie_id == c.id %}selected{% endif %}>{{ c.nom }}</option>{% endfor %}
+    </select></div>
+  <div class="champ"><label for="artisan">Artisan</label>
+    <input type="text" id="artisan" name="artisan" value="{{ p.artisan if p else '' }}" maxlength="100" required></div>
+  <div class="champ"><label for="description">Description</label>
+    <textarea id="description" name="description" rows="4" maxlength="1000">{{ p.description if p else '' }}</textarea></div>
+  <div class="champ"><label for="prix">Prix (FCFA)</label>
+    <input type="number" id="prix" name="prix" value="{{ p.prix if p and p.prix else '' }}" min="1" step="1" required></div>
+  <div class="champ"><label for="stock">Stock</label>
+    <input type="number" id="stock" name="stock" value="{{ p.stock if p and p.stock is not none else 0 }}" min="0" step="1" required></div>
+  <div class="champ"><label for="image">Image (PNG, JPG ou WEBP, 2 Mo max)</label>
+    <input type="file" id="image" name="image" accept="image/png,image/jpeg,image/webp"></div>
+  <div class="radio"><input type="checkbox" id="actif" name="actif" value="1" {% if not p or p.actif %}checked{% endif %}>
+    <label for="actif">Produit visible dans la boutique</label></div>
+  <button type="submit" class="bouton">Enregistrer</button>
+  <a href="{{ url_for('admin_produits') }}">Annuler</a>
+</form>
+{% endblock %}

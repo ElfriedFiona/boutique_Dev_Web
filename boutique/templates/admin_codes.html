@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titre %}Codes de réduction{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>Codes de réduction</h1>
+<form method="post" class="filtres">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div class="champ"><label for="code">Code</label><input type="text" id="code" name="code" maxlength="20" required></div>
+  <div class="champ champ-court"><label for="pourcentage">Réduction (%)</label><input type="number" id="pourcentage" name="pourcentage" min="1" max="100" required></div>
+  <div class="champ"><label for="date_expiration">Expire le</label><input type="date" id="date_expiration" name="date_expiration" required></div>
+  <button type="submit" class="bouton">Créer le code</button>
+</form>
+<div class="defilement">
+<table>
+  <caption>Codes existants</caption>
+  <thead><tr><th scope="col">Code</th><th scope="col">Réduction</th><th scope="col">Expiration</th><th scope="col">État</th></tr></thead>
+  <tbody>
+  {% for c in codes %}
+  <tr><th scope="row">{{ c.code }}</th><td>{{ c.pourcentage }} %</td><td>{{ c.date_expiration }}</td>
+      <td>{{ 'Expiré' if c.date_expiration < aujourdhui else 'Valide' }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

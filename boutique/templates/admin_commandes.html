@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titre %}Commandes{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>Commandes</h1>
+<form method="get" class="filtres">
+  <div class="champ"><label for="statut">Filtrer par statut</label>
+    <select id="statut" name="statut">
+      <option value="">Tous</option>
+      {% for s in statuts %}<option value="{{ s }}" {% if s == statut %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select></div>
+  <button type="submit" class="bouton">Filtrer</button>
+</form>
+<div class="defilement">
+<table>
+  <caption>{{ commandes|length }} commande{{ 's' if commandes|length > 1 }}</caption>
+  <thead><tr><th scope="col">N°</th><th scope="col">Date</th><th scope="col">Client</th><th scope="col">Paiement</th><th scope="col">Total</th><th scope="col">Statut</th></tr></thead>
+  <tbody>
+  {% for c in commandes %}
+  <tr>
+    <th scope="row"><a href="{{ url_for('admin_commande', commande_id=c.id) }}">{{ c.id }}</a></th>
+    <td>{{ c.date[:16] }}</td><td>{{ c.client_nom }}</td><td>{{ MODES_PAIEMENT[c.mode_paiement] }}</td>
+    <td>{{ c.total|fcfa }}</td>
+    <td><span class="statut statut-{{ c.statut|classe_statut }}">{{ c.statut }}</span></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

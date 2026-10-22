@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titre %}Tableau de bord{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>Tableau de bord</h1>
+<p>{{ a_traiter }} commande{{ 's' if a_traiter > 1 }} reçue{{ 's' if a_traiter > 1 }} à préparer.
+   <a href="{{ url_for('admin_commandes', statut='reçue') }}">Voir</a></p>
+
+<section aria-labelledby="t-alertes">
+  <h2 id="t-alertes">Stock inférieur à {{ SEUIL }}</h2>
+  {% if alertes %}
+  <ul class="liste-alertes">
+    {% for a in alertes %}
+    <li><a href="{{ url_for('admin_formulaire_produit', produit_id=a.id) }}">{{ a.nom }}</a> :
+        <strong>{{ 'épuisé' if a.stock == 0 else a.stock ~ ' en stock' }}</strong></li>
+    {% endfor %}
+  </ul>
+  {% else %}<p>Tous les stocks sont suffisants.</p>{% endif %}
+</section>
+
+<section aria-labelledby="t-stats" id="stats" data-url="{{ url_for('api_statistiques') }}">
+  <h2 id="t-stats">Statistiques</h2>
+  <p id="stats-etat">Chargement des statistiques…</p>
+  <div id="stats-contenu" hidden>
+    <h3>Chiffre d'affaires par mois (commandes livrées)</h3><div id="stat-ca" class="barres"></div>
+    <h3>Les 5 produits les plus vendus</h3><div id="stat-top" class="barres"></div>
+    <h3>Panier moyen</h3><p id="stat-panier" class="prix prix-grand"></p>
+    <h3>Commandes par mode de paiement</h3><div id="stat-paiement" class="barres"></div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin.js') }}"></script>{% endblock %}

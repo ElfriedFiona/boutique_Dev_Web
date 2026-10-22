@@ -1,0 +1,16 @@
+<article class="produit-carte">
+  <a href="{{ url_for('produit', produit_id=p.id) }}">
+    <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.nom }}, par {{ p.artisan }}" width="400" height="300" loading="lazy">
+  </a>
+  <div class="produit-infos">
+    <h3><a href="{{ url_for('produit', produit_id=p.id) }}">{{ p.nom }}</a></h3>
+    <p class="artisan">{{ p.artisan }}</p>
+    <p class="prix">{{ p.prix|fcfa }}</p>
+    {% if p.stock > 0 %}
+    <p class="stock stock-ok">En stock</p>
+    <button type="button" class="bouton" data-ajouter="{{ p.id }}" data-stock="{{ p.stock }}">Ajouter au panier</button>
+    {% else %}
+    <p class="stock stock-vide">Épuisé</p>
+    {% endif %}
+  </div>
+</article>

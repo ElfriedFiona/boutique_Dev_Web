@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titre %}{{ p.nom }}{% endblock %}
+{% block contenu %}
+<p><a href="{{ url_for('catalogue', categorie=p.categorie_id) }}">← {{ p.categorie }}</a></p>
+<article class="fiche">
+  <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.nom }}, par {{ p.artisan }}" width="400" height="300">
+  <div>
+    <h1>{{ p.nom }}</h1>
+    <p>Par <a href="{{ url_for('artisan', nom=p.artisan) }}">{{ p.artisan }}</a></p>
+    <p class="prix prix-grand">{{ p.prix|fcfa }}</p>
+    <p>{{ p.description }}</p>
+    {% if p.stock > 0 %}
+    <p class="stock stock-ok">En stock{% if p.stock < SEUIL %} (plus que {{ p.stock }}){% endif %}</p>
+    <div class="champ champ-court">
+      <label for="qte-{{ p.id }}">Quantité</label>
+      <input type="number" id="qte-{{ p.id }}" value="1" min="1" max="{{ p.stock }}">
+    </div>
+    <button type="button" class="bouton" data-ajouter="{{ p.id }}" data-stock="{{ p.stock }}">Ajouter au panier</button>
+    <p id="message-panier" class="message message-succes" role="status" hidden></p>
+    {% else %}
+    <p class="stock stock-vide">Épuisé</p>
+    {% endif %}
+  </div>
+</article>
+{% endblock %}

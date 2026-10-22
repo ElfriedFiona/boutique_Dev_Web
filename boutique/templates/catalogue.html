@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titre %}Catalogue{% endblock %}
+{% block contenu %}
+<h1>Artisanat de l'Ouest du Cameroun</h1>
+<form class="filtres" method="get" action="{{ url_for('catalogue') }}" role="search">
+  <div class="champ">
+    <label for="q">Rechercher</label>
+    <input type="search" id="q" name="q" value="{{ recherche }}" maxlength="60" placeholder="masque, raphia, ndop…">
+  </div>
+  <div class="champ">
+    <label for="categorie">Catégorie</label>
+    <select id="categorie" name="categorie">
+      <option value="">Toutes</option>
+      {% for c in categories %}
+      <option value="{{ c.id }}" {% if c.id == categorie %}selected{% endif %}>{{ c.nom }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="champ">
+    <label for="tri">Trier par</label>
+    <select id="tri" name="tri">
+      <option value="nom" {% if tri == 'nom' %}selected{% endif %}>Nom</option>
+      <option value="prix_asc" {% if tri == 'prix_asc' %}selected{% endif %}>Prix croissant</option>
+      <option value="prix_desc" {% if tri == 'prix_desc' %}selected{% endif %}>Prix décroissant</option>
+    </select>
+  </div>
+  <button type="submit" class="bouton">Filtrer</button>
+</form>
+
+<p id="message-panier" class="message message-succes" role="status" hidden></p>
+
+{% if produits %}
+<p class="compte">{{ produits|length }} produit{{ 's' if produits|length > 1 }}</p>
+<div class="grille">
+  {% for p in produits %}{% include "_carte_produit.html" %}{% endfor %}
+</div>
+{% else %}
+<p>Aucun produit ne correspond à votre recherche. <a href="{{ url_for('catalogue') }}">Voir tout le catalogue</a>.</p>
+{% endif %}
+{% endblock %}

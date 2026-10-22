@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titre %}Panier{% endblock %}
+{% block contenu %}
+<h1>Votre panier</h1>
+<div id="panier-zone" data-modifiable="oui"><p>Chargement du panier…</p></div>
+<p id="panier-actions" hidden><a class="bouton" href="{{ url_for('commande') }}">Passer la commande</a></p>
+<p><a href="{{ url_for('catalogue') }}">← Continuer mes achats</a></p>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/panier-page.js') }}"></script>{% endblock %}

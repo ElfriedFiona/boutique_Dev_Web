@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titre %}Valider la commande{% endblock %}
+{% block contenu %}
+<h1>Valider la commande</h1>
+<div id="panier-zone" data-modifiable="non"><p>Chargement du panier…</p></div>
+
+<form id="form-commande" method="post" action="{{ url_for('commande') }}" novalidate>
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <input type="hidden" name="panier" id="champ-panier" value="[]">
+  <div class="champ">
+    <label for="nom">Nom complet</label>
+    <input type="text" id="nom" name="nom" value="{{ valeurs.nom or '' }}" maxlength="80" autocomplete="name" required>
+    <p class="erreur-champ" id="err-nom" role="alert"></p>
+  </div>
+  <div class="champ">
+    <label for="telephone">Téléphone</label>
+    <input type="tel" id="telephone" name="telephone" value="{{ valeurs.telephone or '' }}" inputmode="tel" autocomplete="tel" placeholder="677 12 34 56" required>
+    <p class="erreur-champ" id="err-telephone" role="alert"></p>
+  </div>
+  <div class="champ">
+    <label for="adresse">Adresse de livraison</label>
+    <textarea id="adresse" name="adresse" rows="3" maxlength="200" required>{{ valeurs.adresse or '' }}</textarea>
+    <p class="erreur-champ" id="err-adresse" role="alert"></p>
+  </div>
+  <fieldset>
+    <legend>Mode de paiement</legend>
+    {% for cle, libelle in MODES_PAIEMENT.items() %}
+    <div class="radio">
+      <input type="radio" id="mode-{{ cle }}" name="mode_paiement" value="{{ cle }}" {% if valeurs.mode_paiement == cle %}checked{% endif %}>
+      <label for="mode-{{ cle }}">{{ libelle }}</label>
+    </div>
+    {% endfor %}
+    <p class="erreur-champ" id="err-mode" role="alert"></p>
+  </fieldset>
+  <div class="champ">
+    <label for="code">Code de réduction (facultatif)</label>
+    <input type="text" id="code" name="code" value="{{ valeurs.code or '' }}" maxlength="20" autocomplete="off">
+  </div>
+  <button type="submit" class="bouton">Confirmer la commande</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/panier-page.js') }}"></script>
+<script src="{{ url_for('static', filename='js/commande.js') }}"></script>
+{% endblock %}

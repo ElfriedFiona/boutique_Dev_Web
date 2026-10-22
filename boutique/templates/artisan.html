@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block titre %}{{ nom }}{% endblock %}
+{% block contenu %}
+<h1>{{ nom }}</h1>
+<p>{{ produits|length }} produit{{ 's' if produits|length > 1 }} de cet artisan.</p>
+<p id="message-panier" class="message message-succes" role="status" hidden></p>
+<div class="grille">
+  {% for p in produits %}{% include "_carte_produit.html" %}{% endfor %}
+</div>
+{% endblock %}

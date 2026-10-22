@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titre %}Commande n°{{ c.id }}{% endblock %}
+{% block contenu %}
+{% include "_admin_menu.html" %}
+<h1>Commande n°{{ c.id }}</h1>
+<p>Statut : <span class="statut statut-{{ c.statut|classe_statut }}">{{ c.statut }}</span></p>
+<ul class="details">
+  <li>Client : {{ c.client_nom }}, {{ c.client_telephone }}</li>
+  <li>Adresse : {{ c.adresse }}</li>
+  <li>Date : {{ c.date }}</li>
+  <li>Paiement : {{ MODES_PAIEMENT[c.mode_paiement] }}</li>
+</ul>
+<div class="defilement">
+<table>
+  <caption>Lignes de la commande</caption>
+  <thead><tr><th scope="col">Produit</th><th scope="col">Quantité</th><th scope="col">Prix unitaire</th><th scope="col">Sous-total</th></tr></thead>
+  <tbody>
+    {% for l in lignes %}
+    <tr><th scope="row">{{ l.nom }}</th><td>{{ l.quantite }}</td><td>{{ l.prix_unitaire|fcfa }}</td><td>{{ (l.quantite * l.prix_unitaire)|fcfa }}</td></tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    {% if c.reduction %}<tr><th scope="row" colspan="3">Réduction</th><td>− {{ c.reduction|fcfa }}</td></tr>{% endif %}
+    <tr><th scope="row" colspan="3">Total</th><td><strong>{{ c.total|fcfa }}</strong></td></tr>
+  </tfoot>
+</table>
+</div>
+{% if suivants %}
+<form method="post" action="{{ url_for('admin_changer_statut', commande_id=c.id) }}" class="filtres">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div class="champ"><label for="statut">Nouveau statut</label>
+    <select id="statut" name="statut">{% for s in suivants %}<option value="{{ s }}">{{ s }}</option>{% endfor %}</select></div>
+  <button type="submit" class="bouton">Changer le statut</button>
+</form>
+<p class="aide">Une commande annulée remet automatiquement ses quantités en stock.</p>
+{% else %}
+<p class="aide">Ce statut est définitif.</p>
+{% endif %}
+<p><a href="{{ url_for('admin_commandes') }}">← Retour aux commandes</a></p>
+{% endblock %}

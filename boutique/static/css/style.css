@@ -1,0 +1,124 @@
+/* style.css : approche mobile d'abord, points de rupture à 40em (tablette) et 64em (ordinateur) */
+:root {
+  --indigo: #1c2b5e;
+  --encre: #1a1d2e;
+  --fond: #f2f4f8;
+  --surface: #ffffff;
+  --raphia: #d9a21b;
+  --trait: #d5d9e4;
+  --ok: #17673f;
+  --alerte: #b3261e;
+  --police-titre: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --police-texte: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: var(--police-texte); color: var(--encre); background: var(--fond); line-height: 1.5; }
+h1, h2, h3, .logo { font-family: var(--police-titre); line-height: 1.2; }
+h1 { font-size: 1.6rem; margin: 1rem 0; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; margin: .25rem 0; }
+a { color: var(--indigo); }
+img { max-width: 100%; height: auto; display: block; }
+:focus-visible { outline: 3px solid var(--raphia); outline-offset: 2px; }
+.lien-evitement { position: absolute; left: -999px; background: var(--surface); padding: .5rem 1rem; }
+.lien-evitement:focus { left: .5rem; top: .5rem; z-index: 10; }
+
+/* En-tête : bandeau de losanges inspiré du ndop */
+.bandeau-ndop { height: 14px; background:
+  linear-gradient(135deg, transparent 38%, var(--raphia) 38% 62%, transparent 62%) 0 0 / 14px 14px, var(--indigo); }
+.entete { background: var(--indigo); color: #fff; }
+.entete-corps { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; padding: .75rem 1rem; }
+.logo { color: #fff; font-size: 1.4rem; font-weight: bold; text-decoration: none; }
+.menu { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
+.menu a { color: #fff; padding: .5rem 0; display: inline-block; }
+
+main { max-width: 72rem; margin: 0 auto; padding: 0 1rem 2rem; }
+.pied { background: var(--surface); border-top: 1px solid var(--trait); padding: 1rem; text-align: center; font-size: .9rem; }
+.pied form, .pied p { margin: .25rem 0; }
+
+/* Boutons et formulaires */
+.bouton { display: inline-block; background: var(--indigo); color: #fff; border: 0; border-radius: 6px; padding: .7rem 1.1rem; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; min-height: 44px; }
+.bouton:hover { background: #121c40; }
+.bouton-lien { background: none; border: 0; padding: .5rem 0; font: inherit; color: var(--indigo); text-decoration: underline; cursor: pointer; min-height: 44px; }
+.champ { display: flex; flex-direction: column; gap: .25rem; margin-bottom: 1rem; }
+.champ-court { max-width: 8rem; }
+label, legend { font-weight: 600; }
+input[type=text], input[type=search], input[type=tel], input[type=number], input[type=password], input[type=date], select, textarea {
+  font: inherit; padding: .6rem; border: 1px solid #8a90a6; border-radius: 6px; background: #fff; width: 100%; min-height: 44px; }
+.radio { display: flex; align-items: center; gap: .5rem; margin: .25rem 0 1rem; }
+.radio input { width: 1.25rem; height: 1.25rem; }
+fieldset { border: 1px solid var(--trait); border-radius: 6px; margin: 0 0 1rem; padding: .75rem; }
+.filtres { display: grid; gap: .75rem; align-items: end; margin-bottom: 1rem; }
+.form-etroit { max-width: 32rem; }
+.erreur-champ { color: var(--alerte); margin: 0; font-size: .9rem; min-height: 0; }
+input[aria-invalid=true], textarea[aria-invalid=true] { border-color: var(--alerte); border-width: 2px; }
+.aide { color: #4b516a; font-size: .9rem; }
+
+/* Messages */
+.messages { margin-top: 1rem; }
+.message { padding: .75rem 1rem; border-radius: 6px; margin: .5rem 0; border-left: 5px solid; background: var(--surface); }
+.message-erreur { border-color: var(--alerte); }
+.message-succes { border-color: var(--ok); }
+
+/* Catalogue : une colonne sur téléphone */
+.grille { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+.produit-carte { background: var(--surface); border: 1px solid var(--trait); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+.produit-infos { padding: .75rem 1rem 1rem; display: flex; flex-direction: column; gap: .25rem; flex: 1; }
+.produit-infos .bouton { margin-top: auto; }
+.produit-infos h3 a { text-decoration: none; color: var(--encre); }
+.artisan { margin: 0; color: #4b516a; font-size: .9rem; }
+.prix { font-weight: 700; margin: .25rem 0; }
+.prix-grand { font-size: 1.5rem; color: var(--indigo); }
+.stock { margin: 0; font-weight: 600; font-size: .9rem; }
+.stock-ok { color: var(--ok); }
+.stock-vide { color: var(--alerte); }
+.compte { color: #4b516a; }
+.fiche { display: grid; gap: 1.25rem; background: var(--surface); padding: 1rem; border-radius: 8px; }
+
+/* Tableaux */
+.defilement { overflow-x: auto; margin-bottom: 1rem; }
+table { border-collapse: collapse; width: 100%; background: var(--surface); min-width: 30rem; }
+caption { text-align: left; font-weight: 700; padding: .5rem 0; }
+th, td { padding: .6rem; border-bottom: 1px solid var(--trait); text-align: left; }
+thead th { background: #e7eaf2; }
+td.alerte { color: var(--alerte); font-weight: 700; }
+.actions { display: flex; gap: 1rem; align-items: center; }
+.statut { display: inline-block; padding: .1rem .6rem; border-radius: 99px; font-size: .85rem; font-weight: 600; border: 1px solid; }
+.statut-recue { color: #7a4b00; background: #fff3d6; }
+.statut-preparee { color: #1c2b5e; background: #e3e8fb; }
+.statut-livree { color: var(--ok); background: #def3e6; }
+.statut-annulee { color: var(--alerte); background: #fbe4e2; }
+
+/* Panier */
+.ligne-panier { display: grid; grid-template-columns: 4.5rem 1fr; gap: .75rem; background: var(--surface); padding: .75rem; border-radius: 8px; margin-bottom: .75rem; }
+.ligne-panier img { border-radius: 4px; }
+.ligne-panier .controles { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.ligne-panier input[type=number] { width: 5rem; }
+.total-panier { font-size: 1.3rem; font-weight: 700; text-align: right; }
+
+/* Administration */
+.sous-menu ul { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; padding: .5rem 0; margin: 0; border-bottom: 1px solid var(--trait); }
+.sous-menu a { display: inline-block; padding: .5rem 0; }
+.liste-alertes li { margin: .25rem 0; }
+.details { padding-left: 1.1rem; }
+.barre-ligne { display: grid; grid-template-columns: 8rem 1fr; gap: .5rem; align-items: center; margin: .35rem 0; font-size: .9rem; }
+.barre-fond { background: #e7eaf2; border-radius: 4px; }
+.barre { background: var(--indigo); color: #fff; border-radius: 4px; padding: .15rem .5rem; white-space: nowrap; min-width: 2rem; font-size: .85rem; }
+.page-erreur { text-align: center; padding: 2rem 0; }
+
+/* Tablette */
+@media (min-width: 40em) {
+  h1 { font-size: 2rem; }
+  .grille { grid-template-columns: repeat(2, 1fr); }
+  .filtres { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+  .fiche { grid-template-columns: 1fr 1fr; padding: 1.5rem; }
+  .ligne-panier { grid-template-columns: 6rem 1fr auto; align-items: center; }
+  .ligne-panier .controles { grid-column: auto; }
+  .barre-ligne { grid-template-columns: 14rem 1fr; }
+}
+/* Ordinateur */
+@media (min-width: 64em) {
+  .grille { grid-template-columns: repeat(4, 1fr); }
+  .entete-corps { padding: 1rem 2rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }

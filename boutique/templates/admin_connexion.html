@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titre %}Connexion{% endblock %}
+{% block contenu %}
+<h1>Espace d'administration</h1>
+<form method="post" class="form-etroit">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div class="champ"><label for="login">Identifiant</label>
+    <input type="text" id="login" name="login" autocomplete="username" required></div>
+  <div class="champ"><label for="mot_de_passe">Mot de passe</label>
+    <input type="password" id="mot_de_passe" name="mot_de_passe" autocomplete="current-password" required></div>
+  <button type="submit" class="bouton">Se connecter</button>
+</form>
+{% endblock %}

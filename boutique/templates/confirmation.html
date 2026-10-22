@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titre %}Commande confirmée{% endblock %}
+{% block contenu %}
+<section data-vider-panier>
+  <h1>Merci {{ c.client_nom }}, votre commande n°{{ c.id }} est enregistrée</h1>
+  <p>Statut : <span class="statut statut-{{ c.statut|classe_statut }}">{{ c.statut }}</span>.
+     Livraison à {{ c.adresse }}. Nous vous appellerons au {{ c.client_telephone }}.</p>
+  <p>Paiement : {{ MODES_PAIEMENT[c.mode_paiement] }}.</p>
+  <div class="defilement">
+  <table>
+    <caption>Détail de la commande</caption>
+    <thead><tr><th scope="col">Produit</th><th scope="col">Quantité</th><th scope="col">Prix unitaire</th><th scope="col">Sous-total</th></tr></thead>
+    <tbody>
+      {% for l in lignes %}
+      <tr><th scope="row">{{ l.nom }}</th><td>{{ l.quantite }}</td><td>{{ l.prix_unitaire|fcfa }}</td><td>{{ (l.quantite * l.prix_unitaire)|fcfa }}</td></tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      {% if c.reduction %}<tr><th scope="row" colspan="3">Réduction</th><td>− {{ c.reduction|fcfa }}</td></tr>{% endif %}
+      <tr><th scope="row" colspan="3">Total à payer</th><td><strong>{{ c.total|fcfa }}</strong></td></tr>
+    </tfoot>
+  </table>
+  </div>
+  <p><a class="bouton" href="{{ url_for('catalogue') }}">Retour au catalogue</a></p>
+</section>
+{% endblock %}
